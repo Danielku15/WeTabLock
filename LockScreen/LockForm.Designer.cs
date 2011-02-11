@@ -30,25 +30,16 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LockForm));
-            this.btnUnlock = new System.Windows.Forms.Button();
             this.icoTray = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuClose = new System.Windows.Forms.ToolStripMenuItem();
-            this.label1 = new System.Windows.Forms.Label();
-            this.lblRelock = new System.Windows.Forms.Label();
+            this.appleUnlockWidget1 = new LockScreen.Ui.AppleUnlockWidget();
+            this.statusBar1 = new LockScreen.StatusBar();
+            this.wifiWidget1 = new LockScreen.Ui.StatusBar.WifiWidget();
+            this.batteryWidget1 = new LockScreen.BatteryWidget();
             this.contextMenuStrip1.SuspendLayout();
+            this.statusBar1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // btnUnlock
-            // 
-            this.btnUnlock.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnUnlock.Location = new System.Drawing.Point(12, 12);
-            this.btnUnlock.Name = "btnUnlock";
-            this.btnUnlock.Size = new System.Drawing.Size(302, 74);
-            this.btnUnlock.TabIndex = 2;
-            this.btnUnlock.Text = "Tap here to unlock";
-            this.btnUnlock.UseVisualStyleBackColor = true;
-            this.btnUnlock.Click += new System.EventHandler(this.OnUnlockClick);
             // 
             // icoTray
             // 
@@ -59,6 +50,7 @@
             // 
             // contextMenuStrip1
             // 
+            this.statusBar1.SetDisplayIndex(this.contextMenuStrip1, 0);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuClose});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
@@ -71,31 +63,48 @@
             this.mnuClose.Text = "Close";
             this.mnuClose.Click += new System.EventHandler(this.OnCloseClick);
             // 
-            // label1
+            // appleUnlockWidget1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(12, 326);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(665, 73);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "I am the Lockscreen :)";
+            this.appleUnlockWidget1.BackColor = System.Drawing.Color.Transparent;
+            this.statusBar1.SetDisplayIndex(this.appleUnlockWidget1, 0);
+            this.appleUnlockWidget1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.appleUnlockWidget1.Location = new System.Drawing.Point(0, 607);
+            this.appleUnlockWidget1.Name = "appleUnlockWidget1";
+            this.appleUnlockWidget1.Size = new System.Drawing.Size(998, 90);
+            this.appleUnlockWidget1.TabIndex = 5;
             // 
-            // lblRelock
+            // statusBar1
             // 
-            this.lblRelock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblRelock.AutoSize = true;
-            this.lblRelock.BackColor = System.Drawing.Color.Transparent;
-            this.lblRelock.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRelock.ForeColor = System.Drawing.Color.White;
-            this.lblRelock.Location = new System.Drawing.Point(12, 253);
-            this.lblRelock.Name = "lblRelock";
-            this.lblRelock.Size = new System.Drawing.Size(647, 73);
-            this.lblRelock.TabIndex = 3;
-            this.lblRelock.Text = "Time till autolock: 10s";
+            this.statusBar1.BackColor = System.Drawing.Color.Transparent;
+            this.statusBar1.Controls.Add(this.wifiWidget1);
+            this.statusBar1.Controls.Add(this.batteryWidget1);
+            this.statusBar1.SetDisplayIndex(this.statusBar1, 0);
+            this.statusBar1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.statusBar1.Location = new System.Drawing.Point(0, 0);
+            this.statusBar1.Name = "statusBar1";
+            this.statusBar1.Size = new System.Drawing.Size(998, 110);
+            this.statusBar1.TabIndex = 4;
+            // 
+            // wifiWidget1
+            // 
+            this.wifiWidget1.BackColor = System.Drawing.Color.Transparent;
+            this.statusBar1.SetDisplayIndex(this.wifiWidget1, 1);
+            this.wifiWidget1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.wifiWidget1.Location = new System.Drawing.Point(3, 41);
+            this.wifiWidget1.Name = "wifiWidget1";
+            this.wifiWidget1.Size = new System.Drawing.Size(123, 32);
+            this.wifiWidget1.TabIndex = 1;
+            // 
+            // batteryWidget1
+            // 
+            this.batteryWidget1.BackColor = System.Drawing.Color.Transparent;
+            this.statusBar1.SetDisplayIndex(this.batteryWidget1, 0);
+            this.batteryWidget1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.batteryWidget1.Location = new System.Drawing.Point(3, 3);
+            this.batteryWidget1.Name = "batteryWidget1";
+            this.batteryWidget1.Size = new System.Drawing.Size(138, 32);
+            this.batteryWidget1.TabIndex = 0;
+            this.batteryWidget1.Text = "98,00% (Laden...)";
             // 
             // LockForm
             // 
@@ -103,11 +112,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(788, 408);
+            this.ClientSize = new System.Drawing.Size(998, 697);
             this.ControlBox = false;
-            this.Controls.Add(this.lblRelock);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.btnUnlock);
+            this.Controls.Add(this.appleUnlockWidget1);
+            this.Controls.Add(this.statusBar1);
+            this.statusBar1.SetDisplayIndex(this, 0);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.KeyPreview = true;
@@ -124,19 +133,20 @@
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnGlobalMouseHandler);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnGlobalMouseHandler);
             this.contextMenuStrip1.ResumeLayout(false);
+            this.statusBar1.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button btnUnlock;
         private System.Windows.Forms.NotifyIcon icoTray;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem mnuClose;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lblRelock;
+        private StatusBar statusBar1;
+        private BatteryWidget batteryWidget1;
+        private Ui.StatusBar.WifiWidget wifiWidget1;
+        private Ui.AppleUnlockWidget appleUnlockWidget1;
 
 
     }

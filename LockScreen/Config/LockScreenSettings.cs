@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
+using System.Xml.Serialization;
+
 namespace LockScreen.Config
 {
     /// <summary>
@@ -27,7 +28,7 @@ namespace LockScreen.Config
 
 
 
-        #region Accessor
+        #region Singleton
 
         private static LockScreenSettings _current;
         /// <summary>
@@ -83,6 +84,7 @@ namespace LockScreen.Config
         #endregion
 
         #region Loading/Saving
+       
         /// <summary>
         /// Loads the settings from the given file.
         /// </summary>
@@ -90,10 +92,10 @@ namespace LockScreen.Config
         /// <returns>The loaded instance</returns>
         public static LockScreenSettings LoadSettings(string file)
         {
-            BinaryFormatter bf = new BinaryFormatter();
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(LockScreenSettings));
             using (Stream fs = new FileStream(file, FileMode.Create, FileAccess.ReadWrite))
             {
-                return (LockScreenSettings)bf.Deserialize(fs);
+                return (LockScreenSettings)xmlSerializer.Deserialize(fs);
             }
         }
 
@@ -104,10 +106,10 @@ namespace LockScreen.Config
         /// <param name="path">The path to save into</param>
         private static void SaveSettings(LockScreenSettings current, string path)
         {
-            BinaryFormatter bf = new BinaryFormatter();
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(LockScreenSettings));
             using (Stream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
             {
-                bf.Serialize(fs, current);
+                xmlSerializer.Serialize(fs, current);
             }
         }
 
@@ -117,7 +119,8 @@ namespace LockScreen.Config
         public static string DefaultConfigPath
         {
             get { return Path.Combine(Application.StartupPath, ConfigFile); }
-        } 
+        }
+ 
         #endregion
     }
 }

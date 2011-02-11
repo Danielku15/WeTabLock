@@ -134,7 +134,6 @@ namespace LockScreen
             lock (_relockLock)
             {
                 _relockCountDown = LockScreenSettings.Current.RelockTime;
-                BeginInvoke(new MethodInvoker(() => UpdateTimerLabel(_relockCountDown)));
             }
             _relockTimer.Stop();
             _relockTimer.Start();
@@ -151,7 +150,6 @@ namespace LockScreen
             {
                 _relockCountDown--;
 
-                BeginInvoke(new Action<int>(UpdateTimerLabel), _relockCountDown);
                 if (_relockCountDown <= 0)
                 {
                     BeginInvoke(new MethodInvoker(Lock));
@@ -166,15 +164,6 @@ namespace LockScreen
         private void StopRelock()
         {
             _relockTimer.Stop();
-        }
-
-        /// <summary>
-        /// Updates the timer label.
-        /// </summary>
-        /// <param name="countdown">The countdown.</param>
-        private void UpdateTimerLabel(int countdown)
-        {
-            lblRelock.Text = string.Format("Time till autolock: {0}s", countdown);
         }
 
         #endregion
@@ -207,7 +196,7 @@ namespace LockScreen
         /// <summary>
         /// Starts the locking process.
         /// </summary>
-        private void Lock()
+        public void Lock()
         {
             if (InvokeRequired)
             {
@@ -220,6 +209,14 @@ namespace LockScreen
             IsLocked = true;
             SystemApi.Instance.DisableTouchScreen();
         }
+
+        public void Unlock()
+        {
+            Visible = false;
+            IsLocked = false;
+            // quit relock on complete unlock
+            _relockTimer.Stop();
+        }
         #endregion
 
         /// <summary>
@@ -229,10 +226,7 @@ namespace LockScreen
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         private void OnUnlockClick(object sender, EventArgs e)
         {
-            Visible = false;
-            IsLocked = false;
-            // quit relock on complete unlock
-            _relockTimer.Stop();
+            Unlock();
         }
 
         /// <summary>

@@ -10,26 +10,36 @@ namespace LockScreen
 {
     public abstract partial class LockScreenWidget : Panel
     {
-        public LockScreenControl LockScreen { get; internal set; }
+        protected internal LockScreenControl LockScreen { get; internal set; }
 
-
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams cp = base.CreateParams;
-                cp.ExStyle |= 0x20;
-                return cp;
-            }
-        }
-
-        public LockScreenWidget()
+        protected LockScreenWidget()
         {
             InitializeComponent();
+            base.DoubleBuffered = true;
+            SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            SetStyle(ControlStyles.DoubleBuffer, true);
+            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+            SetStyle(ControlStyles.ResizeRedraw, true);
+
+            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+            base.BackColor = Color.Transparent;
         }
 
-        protected override void OnPaintBackground(PaintEventArgs pevent)
-        { /* Do Nothing */ }
+        protected sealed override void OnPaint(PaintEventArgs e)
+        {
+           // base.OnPaint(e);
+            e.Graphics.TextRenderingHint =
+            System.Drawing.Text.TextRenderingHint.AntiAlias;
+            e.Graphics.InterpolationMode =
+                System.Drawing.Drawing2D.InterpolationMode.HighQualityBilinear;
+            e.Graphics.PixelOffsetMode =
+                System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+            e.Graphics.SmoothingMode =
+                System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            OnPaintWidget(e);
+        }
+
+        protected abstract void OnPaintWidget(PaintEventArgs e);
 
         protected void InvalidateEx()
         {

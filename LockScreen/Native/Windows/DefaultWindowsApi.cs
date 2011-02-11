@@ -149,6 +149,7 @@ namespace LockScreen.Native.Windows
         /// <param name="active">whether to activate or disable the screen power</param>
         private static void SetScreenPower(bool active)
         {
+#if !UIDEBUG
             Logger.Debug("changing screen power to {0}", active);
             int newValue = (active) ? Win32.SCREEN_TURN_ON : Win32.SCREEN_SHUT_OFF;
             // get mainform handle
@@ -161,6 +162,7 @@ namespace LockScreen.Native.Windows
 
 
             Win32.SendMessage(form.Handle.ToInt32(), Win32.WM_SYSCOMMAND, Win32.SC_MONITORPOWER, newValue);
+#endif
         }
 
         #endregion

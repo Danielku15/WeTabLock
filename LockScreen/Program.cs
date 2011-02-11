@@ -44,12 +44,18 @@ namespace LockScreen
                 Application.ThreadException += Application_ThreadException;
                 Application.Run(LockForm.Instance);
             }
+#elif UIDEBUG
+            Logger.Debug("Running in debug mode");
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.ThreadException += Application_ThreadException;
+            Application.Run(LockForm.Instance);
 #else
-                Logger.Debug("Running in debug mode");
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                Application.ThreadException += Application_ThreadException;
-                Application.Run(LockForm.Instance);
+            Logger.Debug("Running in debug mode");
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.ThreadException += Application_ThreadException;
+            Application.Run(LockForm.Instance);
 #endif
         }
 
